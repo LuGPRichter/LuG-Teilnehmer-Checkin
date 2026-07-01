@@ -2,7 +2,7 @@
 // Konfiguration
 // =========================================
 
-const maxDistance = 500;
+const maxDistance = 1500;
 
 // Schulungszentren
 
