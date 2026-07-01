@@ -22,8 +22,8 @@ const locations = [
 
     {
         name: "Stuttgart",
-        lat: 48.6948,
-        lon: 9.1478
+        lat: 48.6964407,
+        lon: 9.162761
     },
 
     {
