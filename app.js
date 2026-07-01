@@ -4,7 +4,9 @@
 
 const maxDistance = 1500;
 
+// =========================================
 // Schulungszentren
+// =========================================
 
 const locations = [
 
@@ -22,8 +24,8 @@ const locations = [
 
     {
         name: "Stuttgart",
-        lat: 48.6964407,
-        lon: 9.162761
+        lat: 48.6948,
+        lon: 9.1478
     },
 
     {
@@ -33,7 +35,6 @@ const locations = [
     }
 
 ];
-
 
 // =========================================
 // Haversine Formel
@@ -50,27 +51,22 @@ function calculateDistance(
 
     const dLat =
         (lat2 - lat1) *
-        Math.PI /
-        180;
+        Math.PI / 180;
 
     const dLon =
         (lon2 - lon1) *
-        Math.PI /
-        180;
+        Math.PI / 180;
 
     const a =
         Math.sin(dLat / 2) *
         Math.sin(dLat / 2) +
 
         Math.cos(
-            lat1 *
-            Math.PI /
-            180
+            lat1 * Math.PI / 180
         ) *
+
         Math.cos(
-            lat2 *
-            Math.PI /
-            180
+            lat2 * Math.PI / 180
         ) *
 
         Math.sin(dLon / 2) *
@@ -86,9 +82,8 @@ function calculateDistance(
     return R * c;
 }
 
-
 // =========================================
-// Meldungen anzeigen
+// Meldungen
 // =========================================
 
 function showMessage(
@@ -101,13 +96,11 @@ function showMessage(
             "meldung"
         )
         .innerHTML =
-        `
-        <div class="alert alert-${type}">
-            ${text}
-        </div>
-        `;
-}
 
+        `<div class="alert alert-${type}">
+            ${text}
+        </div>`;
+}
 
 // =========================================
 // Standort abrufen
@@ -135,15 +128,17 @@ function getLocation() {
     );
 }
 
-
 // =========================================
-// Schulungszentrum prüfen
+// Standort prüfen
 // =========================================
 
 function checkSchoolLocation(
     userLat,
     userLon
 ) {
+
+    let nearestLocation = null;
+    let nearestDistance = Infinity;
 
     for (
         const location of locations
@@ -156,6 +151,18 @@ function checkSchoolLocation(
                 location.lat,
                 location.lon
             );
+
+        if (
+            distance <
+            nearestDistance
+        ) {
+
+            nearestDistance =
+                distance;
+
+            nearestLocation =
+                location;
+        }
 
         if (
             distance <=
@@ -179,10 +186,19 @@ function checkSchoolLocation(
     }
 
     return {
-        valid: false
+
+        valid: false,
+
+        nearestLocation:
+            nearestLocation.name,
+
+        nearestDistance:
+            Math.round(
+                nearestDistance
+            )
+
     };
 }
-
 
 // =========================================
 // Daten speichern
@@ -209,9 +225,7 @@ async function saveCheckIn(
             locationName,
 
         CheckDate:
-            now.toLocaleDateString(
-                
-            ),
+            now.toISOString(),
 
         CheckTime:
             now.toLocaleTimeString(
@@ -226,12 +240,17 @@ async function saveCheckIn(
 
     };
 
+    console.log(
+        "Sende Daten:",
+        data
+    );
+
     try {
 
         const response =
             await fetch(
 
-                "https://default89bb60786f5646f6936d0ee5563b6a.48.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/19dfe4fbfe654bb78bd85dee97d84f22/triggers/manual/paths/invoke?api-version=1",
+                "DEINE_POWER_AUTOMATE_URL_HIER_EINFUEGEN",
 
                 {
                     method: "POST",
@@ -252,6 +271,14 @@ async function saveCheckIn(
             response.ok
         ) {
 
+            const result =
+                await response.text();
+
+            console.log(
+                "Power Automate Antwort:",
+                result
+            );
+
             showMessage(
                 "Check-In erfolgreich gespeichert.",
                 "success"
@@ -259,8 +286,16 @@ async function saveCheckIn(
 
         } else {
 
+            const errorText =
+                await response.text();
+
+            console.error(
+                errorText
+            );
+
             showMessage(
-                "Fehler beim Speichern der Daten.",
+                "Fehler beim Speichern:<br>" +
+                errorText,
                 "danger"
             );
         }
@@ -274,12 +309,12 @@ async function saveCheckIn(
         );
 
         showMessage(
-            "Verbindung zu Power Automate fehlgeschlagen.",
+            "Verbindung zu Power Automate fehlgeschlagen:<br>" +
+            error.message,
             "danger"
         );
     }
 }
-
 
 // =========================================
 // Hauptfunktion
@@ -320,6 +355,21 @@ async function checkIn() {
         const longitude =
             position.coords.longitude;
 
+        console.log(
+            "Latitude:",
+            latitude
+        );
+
+        console.log(
+            "Longitude:",
+            longitude
+        );
+
+        console.log(
+            "GPS-Genauigkeit:",
+            position.coords.accuracy
+        );
+
         const result =
             checkSchoolLocation(
                 latitude,
@@ -331,7 +381,20 @@ async function checkIn() {
         ) {
 
             showMessage(
-                "Du befindest dich nicht an einem freigegebenen Schulungszentrum. Check-In nur innerhalb von 50 Metern möglich.",
+
+                "Kein gültiger Standort.<br>" +
+
+                "Nächstes Schulungszentrum: " +
+                result.nearestLocation +
+
+                "<br>Entfernung: " +
+                result.nearestDistance +
+                " Meter<br>" +
+
+                "Erlaubter Radius: " +
+                maxDistance +
+                " Meter",
+
                 "danger"
             );
 
@@ -339,17 +402,23 @@ async function checkIn() {
         }
 
         showMessage(
+
             "Standort erkannt: " +
             result.locationName +
-            " (" +
+
+            "<br>Entfernung: " +
             result.distance +
-            " Meter Entfernung)",
+            " Meter",
+
             "success"
         );
 
         await saveCheckIn(
+
             latitude,
+
             longitude,
+
             result.locationName
         );
 
@@ -362,7 +431,10 @@ async function checkIn() {
         );
 
         showMessage(
-            "Standort konnte nicht ermittelt werden. Bitte Standortfreigabe aktivieren.",
+
+            "Standort konnte nicht ermittelt werden.<br>" +
+            error.message,
+
             "danger"
         );
     }
