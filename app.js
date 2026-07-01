@@ -210,7 +210,7 @@ async function saveCheckIn(
 
         CheckDate:
             now.toLocaleDateString(
-                "de-DE"
+                
             ),
 
         CheckTime:
@@ -231,7 +231,7 @@ async function saveCheckIn(
         const response =
             await fetch(
 
-                "HIER_DEINE_POWER_AUTOMATE_URL",
+                "https://default89bb60786f5646f6936d0ee5563b6a.48.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/19dfe4fbfe654bb78bd85dee97d84f22/triggers/manual/paths/invoke?api-version=1",
 
                 {
                     method: "POST",
