@@ -203,23 +203,55 @@ function checkSchoolLocation(
 // =========================================
 // Daten speichern
 // =========================================
-
 async function saveCheckIn(
     latitude,
     longitude,
     locationName
 ) {
 
-    const now =
-        new Date();
+    const now = new Date();
+
+    const userName =
+        document.getElementById(
+            "userName"
+        ).value;
+
+    const userEmail =
+        document.getElementById(
+            "userEmail"
+        ).value;
+
+    if (!userName || !userEmail) {
+
+        showMessage(
+            "Bitte Name und E-Mail eingeben.",
+            "warning"
+        );
+
+        return;
+    }
+
+    if (
+        !userEmail.endsWith(
+            "@training.lug-ag.de"
+        )
+    ) {
+
+        showMessage(
+            "Bitte die Schul-E-Mail-Adresse verwenden.",
+            "warning"
+        );
+
+        return;
+    }
 
     const data = {
 
         UserName:
-            "Patrick Richter",
+            userName,
 
         UserEmail:
-            "patrick@test.de",
+            userEmail,
 
         Standort:
             locationName,
@@ -315,6 +347,7 @@ async function saveCheckIn(
         );
     }
 }
+
 
 // =========================================
 // Hauptfunktion
