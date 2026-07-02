@@ -2,17 +2,9 @@
 // Meldungen
 // =========================================
 
-function showMessage(
-    text,
-    type
-) {
+function showMessage(text, type) {
 
-    document
-        .getElementById(
-            "meldung"
-        )
-        .innerHTML =
-
+    document.getElementById("meldung").innerHTML =
         `<div class="alert alert-${type}">
             ${text}
         </div>`;
@@ -27,14 +19,10 @@ async function saveCheckIn() {
     const now = new Date();
 
     const userName =
-        document.getElementById(
-            "userName"
-        ).value;
+        document.getElementById("userName").value;
 
     const userEmail =
-        document.getElementById(
-            "userEmail"
-        ).value;
+        document.getElementById("userEmail").value;
 
     if (!userName || !userEmail) {
 
@@ -48,64 +36,42 @@ async function saveCheckIn() {
 
     const data = {
 
-        UserName:
-            userName,
+        UserName: userName,
 
-        UserEmail:
-            userEmail,
+        UserEmail: userEmail,
 
-        Standort:
-            "Nürnberg",
+        Standort: "Nürnberg",
 
-        CheckDate:
-            now.toISOString(),
+        CheckDate: now.toISOString(),
 
-        CheckTime:
-            now.toLocaleTimeString(
-                "de-DE"
-            ),
+        CheckTime: now.toLocaleTimeString("de-DE"),
 
-        Latitude:
-            49.4460,
+        Latitude: 49.4460,
 
-        Longitude:
-            11.0415
+        Longitude: 11.0415
 
     };
 
-    console.log(
-        "Sende Daten:",
-        data
-    );
+    console.log("Sende Daten:", data);
 
     try {
 
-        const response =
-            await fetch(
+        const response = await fetch(
 
-                "https://default89bb60786f5646f6936d0ee5563b6a.48.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/19dfe4fbfe654bb78bd85dee97d84f22/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=qOSzG_4wCK88dnmvywfOsAGlB6FikDdak1FkeFyJ6yY",
+            "https://default89bb60786f5646f6936d0ee5563b6a.48.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/19dfe4fbfe654bb78bd85dee97d84f22/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=qOSzG_4wCK88dnmvywfOsAGlB6FikDdak1FkeFyJ6yY",
 
-                {
+            {
+                method: "POST",
 
-                    method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
+                body: JSON.stringify(data)
+            }
+        );
 
-                    body:
-                        JSON.stringify(
-                            data
-                        )
-
-                }
-
-            );
-
-        if (
-            response.ok
-        ) {
+        if (response.ok) {
 
             const result =
                 await response.text();
@@ -120,39 +86,32 @@ async function saveCheckIn() {
                 "success"
             );
 
-        } else {
+        }
+        else {
 
             const errorText =
                 await response.text();
 
-            console.error(
-                errorText
-            );
+            console.error(errorText);
 
             showMessage(
                 "Fehler beim Speichern:<br>" +
                 errorText,
                 "danger"
             );
-
         }
 
-    } catch (
-        error
-    ) {
+    }
+    catch (error) {
 
-        console.error(
-            error
-        );
+        console.error(error);
 
         showMessage(
             "Verbindung zu Power Automate fehlgeschlagen:<br>" +
             error.message,
             "danger"
         );
-
     }
-
 }
 
 // =========================================
@@ -162,13 +121,9 @@ async function saveCheckIn() {
 async function checkIn() {
 
     const agb =
-        document.getElementById(
-            "agb"
-        );
+        document.getElementById("agb");
 
-    if (
-        !agb.checked
-    ) {
+    if (!agb.checked) {
 
         showMessage(
             "Bitte die Nutzungsbedingungen akzeptieren.",
@@ -179,5 +134,4 @@ async function checkIn() {
     }
 
     await saveCheckIn();
-
 }
