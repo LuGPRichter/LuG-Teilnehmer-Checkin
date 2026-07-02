@@ -410,7 +410,7 @@ async function checkIn() {
             );
 
         if (
-            !result.valid
+            false
         ) {
 
             showMessage(
