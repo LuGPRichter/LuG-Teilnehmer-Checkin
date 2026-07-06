@@ -12,26 +12,26 @@ const locations = [
 
     {
         name: "Heilbronn",
-        lat: 49.1607,
-        lon: 9.1897
+        lat: 49.146717
+        lon: 9.196622
     },
 
     {
         name: "Nürnberg",
-        lat: 49.4460,
-        lon: 11.0415
+        lat: 49.449291,
+        lon: 11.061132
     },
 
     {
         name: "Stuttgart",
-        lat: 48.6948,
-        lon: 9.1478
+        lat: 48.696424,
+        lon: 9.162723
     },
 
     {
         name: "Karlsruhe",
-        lat: 49.0307,
-        lon: 8.3835
+        lat: 49.044317,
+        lon: 8.392164
     }
 
 ];
