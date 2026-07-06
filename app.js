@@ -12,7 +12,7 @@ const locations = [
 
     {
         name: "Heilbronn",
-        lat: 49.146717
+        lat: 49.146717,
         lon: 9.196622
     },
 
