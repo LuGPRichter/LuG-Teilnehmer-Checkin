@@ -90,21 +90,18 @@
                                 id="agb">
 
                             <label
-                              <label
-    class="form-check-label"
-    for="agb">
+                                class="form-check-label"
+                                for="agb">
 
-    Ich habe die
+                                Ich habe die
 
-    <a href="#"
-       data-bs-toggle="modal"
-       data-bs-target="#re diese.
-    Insbesondere bestätige ich,
-    dass ich mich zum Zeitpunkt
-    des Check-Ins tatsächlich am
-    Schulungsstandort befinde.
+                                #>
 
-</label>
+                                gelesen und akzeptiere diese.
+                                Insbesondere bestätige ich,
+                                dass ich mich zum Zeitpunkt
+                                des Check-Ins tatsächlich am
+                                Schulungsstandort befinde.
 
                             </label>
 
@@ -145,17 +142,21 @@
     <div class="modal fade"
          id="agbModal"
          tabindex="-1"
+         aria-labelledby="agbModalLabel"
          aria-hidden="true">
 
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
 
             <div class="modal-content">
 
                 <div class="modal-header">
 
-                    <h5 class="modal-title">
+                    <h5 class="modal-title"
+                        id="agbModalLabel">
+
                         Nutzungsbedingungen
-                                            </h5>
+
+                    </h5>
 
                     <button
                         type="button"
@@ -172,43 +173,69 @@
                     <p>
                         Die Teilnehmer Check-In Anwendung dient
                         ausschließlich der digitalen Erfassung
-                        der Anwesenheit von Teilnehmern.
+                        der Anwesenheit von Teilnehmern an
+                        Schulungsmaßnahmen der
+                        Lutz + Grub Academy GmbH.
                     </p>
 
                     <h6>2. Verarbeitung von Daten</h6>
 
                     <p>
-                        Es werden Name, E-Mail-Adresse,
-                        Zeitpunkt des Check-Ins sowie
-                        technische Informationen zur
-                        Standortvalidierung verarbeitet.
+                        Im Rahmen des Check-Ins werden Name,
+                        E-Mail-Adresse, Zeitpunkt des Check-Ins,
+                        Schulungsstandort sowie technische
+                        Informationen zur Standortvalidierung
+                        verarbeitet.
+                    </p>
+
+                    <p>
+                        Die Daten werden ausschließlich zur
+                        Dokumentation der Anwesenheit und zur
+                        Organisation von Schulungsmaßnahmen
+                        verwendet.
                     </p>
 
                     <h6>3. Bestätigung der Anwesenheit</h6>
 
                     <p>
-                        Mit dem Durchführen des Check-Ins
-                        bestätigt der Teilnehmer, dass
-                        er sich tatsächlich am angegebenen
-                        Schulungsstandort befindet.
+                        Mit dem Durchführen des Check-Ins bestätigt
+                        der Teilnehmer ausdrücklich, dass er sich
+                        tatsächlich am angegebenen Schulungsstandort
+                        befindet.
                     </p>
 
-                    <h6>4. Verpflichtung</h6>
+                    <h6>4. Verpflichtung des Teilnehmers</h6>
 
                     <p>
                         Der Teilnehmer verpflichtet sich,
-                        keine technischen Maßnahmen zur
-                        Umgehung oder Manipulation der
-                        Anwesenheitsprüfung einzusetzen.
+                        ausschließlich wahrheitsgemäße Angaben zu
+                        machen und keine technischen Maßnahmen zu
+                        verwenden, die einen Aufenthalt am
+                        Schulungsstandort vortäuschen oder die
+                        Anwesenheitsprüfung manipulieren könnten.
                     </p>
 
-                    <h6>5. Zustimmung</h6>
+                    <h6>5. Missbrauch</h6>
 
                     <p>
-                        Mit dem Setzen des Häkchens und
-                        dem anschließenden Check-In
-                        werden diese Nutzungsbedingungen
-                        akzeptiert.
+                        Jeder Versuch der Manipulation oder
+                        Umgehung der Anwesenheitsprüfung gilt als
+                        missbräuchliche Nutzung der Anwendung.
+                    </p>
+
+                    <p>
+                        Festgestellte Verstöße können zur
+                        Ungültigkeit des Check-Ins führen.
+                    </p>
+
+                    <h6>6. Zustimmung</h6>
+
+                    <p>
+                        Mit dem Setzen des Häkchens und dem
+                        anschließenden Check-In erklärt der
+                        Teilnehmer, dass die
+                        Nutzungsbedingungen gelesen,
+                        verstanden und akzeptiert wurden.
                     </p>
 
                 </div>
@@ -231,4 +258,11 @@
         </div>
 
     </div>
-               
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    "></script>
+
+</body>
+
+</html>
