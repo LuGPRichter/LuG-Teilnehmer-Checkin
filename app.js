@@ -112,6 +112,9 @@ const email =
 
     const data = {
 
+        Aktion:
+            "CheckIn",
+
         UserName:
             userName,
 
