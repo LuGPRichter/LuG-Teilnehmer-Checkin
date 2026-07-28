@@ -87,14 +87,17 @@ async function saveCheckIn(
 
     const now =
         new Date();
-
+const email =
+    document.getElementById(
+        "email"
+    ).value.trim();
     const data = {
 
         UserName:
-            "Patrick Richter",
+            email,
 
         UserEmail:
-            "patrick@test.de",
+            email,
 
         Standort:
             locationName,
@@ -197,6 +200,20 @@ async function checkIn() {
         document.getElementById(
             "agb"
         );
+    const email =
+    document.getElementById(
+        "email"
+    ).value.trim();
+
+if (!email) {
+
+    showMessage(
+        "Bitte E-Mail-Adresse eingeben.",
+        "warning"
+    );
+
+    return;
+}
 
     if (
         !agb.checked
