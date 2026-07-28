@@ -25,25 +25,14 @@
             <div class="col-lg-8">
 
                 <div class="card shadow">
+
                     <div class="card-header bg-primary text-white">
 
-    <div class="d-flex align-items-center">
+                        <h2 class="mb-0">
+                            Teilnehmer Check-In
+                        </h2>
 
-        <img
-            src="LuG.webp"
-            alt="Lutz + Grub Logo"
-            height="50"
-            class="me-3">
-
-        <h2 class="mb-0">
-            Teilnehmer Check-In
-        </h2>
-
-    </div>
-
-</div>
-
- 
+                    </div>
 
                     <div class="card-body">
 
@@ -59,6 +48,12 @@
                         </p>
 
                         <p>
+                            Die Standortprüfung erfolgt über die öffentliche
+                            Netzwerkadresse des jeweiligen
+                            Schulungszentrums.
+                        </p>
+
+                        <p>
                             Der Check-In ist ausschließlich an den
                             freigegebenen Schulungszentren von
                             Lutz + Grub möglich:
@@ -71,50 +66,19 @@
                             <li>Karlsruhe</li>
                         </ul>
 
-                        <p>
-                            Der Check-In wird nur innerhalb eines Radius
-                            von 50 Metern um den jeweiligen Standort
-                            akzeptiert.
-                        </p>
-
                         <div class="alert alert-info">
 
-                            Bitte aktivieren Sie die Standortfreigabe
-                            Ihres Gerätes.
+                            Der Check-In ist nur möglich, wenn Sie mit dem
+                            WLAN eines freigegebenen Schulungszentrums
+                            verbunden sind.
 
                         </div>
 
-                        <!-- Name -->
+                        <div class="alert alert-secondary">
 
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Vor- und Nachname
-                            </label>
-
-                            <input
-                                type="text"
-                                id="userName"
-                                class="form-control"
-                                placeholder="Max Mustermann"
-                                required>
-
-                        </div>
-
-                        <!-- E-Mail -->
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Schulische E-Mail-Adresse
-                            </label>
-
-                            <input
-                                type="email"
-                                id="userEmail"
-                                class="form-control"
-                                placeholder="max.mustermann@training.lug-ag.de"
-                                required>
+                            Die Anwesenheitsprüfung erfolgt durch den
+                            Abgleich der öffentlichen IP-Adresse des
+                            jeweiligen Schulungsstandortes.
 
                         </div>
 
@@ -129,8 +93,15 @@
                                 class="form-check-label"
                                 for="agb">
 
-                                Ich bestätige die Nutzungsbedingungen
-                                und die Verarbeitung meiner Daten.
+                                Ich habe die
+
+                                #
+
+                                gelesen und akzeptiere diese.
+                                Insbesondere bestätige ich,
+                                dass ich mich zum Zeitpunkt
+                                des Check-Ins tatsächlich am
+                                Schulungsstandort befinde.
 
                             </label>
 
@@ -166,10 +137,19 @@
 
     </div>
 
-    .jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AGB Modal -->
 
-    <script src="app.js"></script>
+    <div class="modal fade"
+         id="agbModal"
+         tabindex="-1"
+         aria-hidden="true">
 
-</body>
+        <div class="modal-dialog modal-lg">
 
-</html>
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+                        Nutzungsbedingungen
+               
