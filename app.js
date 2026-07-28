@@ -70,7 +70,7 @@ function checkIPAddress(ip) {
     ) {
 
         if (
-            ip === allowedIP.includes (ip)
+            allowedIP.includes(ip)
         ) {
 
             return {
