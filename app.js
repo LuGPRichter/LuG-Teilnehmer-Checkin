@@ -1,82 +1,13 @@
 // =========================================
-// Konfiguration
+// Schulungszentren mit WAN-IP-Adressen
 // =========================================
 
-const maxDistance = 1500;
-
-// =========================================
-// Schulungszentren
-// =========================================
-
-const locations = [
-
-    {
-        name: "Heilbronn",
-        lat: 49.146717,
-        lon: 9.196622
-    },
-
-    {
-        name: "Nürnberg",
-        lat: 49.449291,
-        lon: 11.061132
-    },
-
-    {
-        name: "Stuttgart",
-        lat: 48.696424,
-        lon: 9.162723
-    },
-
-    {
-        name: "Karlsruhe",
-        lat: 49.044317,
-        lon: 8.392164
-    }
-
-];
-
-// =========================================
-// Haversine Formel
-// =========================================
-
-function calculateDistance(
-    lat1,
-    lon1,
-    lat2,
-    lon2
-) {
-
-    const R = 6371000;
-
-    const dLat =
-        (lat2 - lat1) *
-        Math.PI / 180;
-
-    const dLon =
-        (lon2 - lon1) *
-        Math.PI / 180;
-
-    const a =
-        Math.sin(dLat / 2) *
-        Math.sin(dLat / 2) +
-
-        Math.cos(lat1 * Math.PI / 180) *
-
-        Math.cos(lat2 * Math.PI / 180) *
-
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-
-    const c =
-        2 *
-        Math.atan2(
-            Math.sqrt(a),
-            Math.sqrt(1 - a)
-        );
-
-    return R * c;
-}
+const allowedIPs = {
+    "Heilbronn": "80.187.66.205",
+    "Nürnberg": "24.134.89.241",
+    "Stuttgart": "217.7.193.54",
+    "Karlsruhe": "78.94.141.170"
+};
 
 // =========================================
 // Meldungen
@@ -99,70 +30,35 @@ function showMessage(
 }
 
 // =========================================
-// Standort abrufen
+// Öffentliche IP abrufen
 // =========================================
 
-function getLocation() {
+async function getPublicIP() {
 
-    return new Promise(
-        (
-            resolve,
-            reject
-        ) => {
+    const response =
+        await fetch(
+            "https://api.ipify.org?format=json"
+        );
 
-            navigator.geolocation.getCurrentPosition(
-                resolve,
-                reject,
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
+    const data =
+        await response.json();
 
-        }
-    );
+    return data.ip;
 }
 
 // =========================================
-// Standort prüfen
+// IP-Adresse prüfen
 // =========================================
 
-function checkSchoolLocation(
-    userLat,
-    userLon
-) {
-
-    let nearestLocation = null;
-    let nearestDistance = Infinity;
+function checkIPAddress(ip) {
 
     for (
-        const location of locations
+        const [locationName, allowedIP]
+        of Object.entries(allowedIPs)
     ) {
 
-        const distance =
-            calculateDistance(
-                userLat,
-                userLon,
-                location.lat,
-                location.lon
-            );
-
         if (
-            distance <
-            nearestDistance
-        ) {
-
-            nearestDistance =
-                distance;
-
-            nearestLocation =
-                location;
-        }
-
-        if (
-            distance <=
-            maxDistance
+            ip === allowedIP
         ) {
 
             return {
@@ -170,29 +66,13 @@ function checkSchoolLocation(
                 valid: true,
 
                 locationName:
-                    location.name,
-
-                distance:
-                    Math.round(
-                        distance
-                    )
-
+                    locationName
             };
         }
     }
 
     return {
-
-        valid: false,
-
-        nearestLocation:
-            nearestLocation.name,
-
-        nearestDistance:
-            Math.round(
-                nearestDistance
-            )
-
+        valid: false
     };
 }
 
@@ -201,46 +81,26 @@ function checkSchoolLocation(
 // =========================================
 
 async function saveCheckIn(
-    latitude,
-    longitude,
+    ipAddress,
     locationName
 ) {
 
-    const now = new Date();
-
-    const userName =
-        document.getElementById(
-            "userName"
-        ).value;
-
-    const userEmail =
-        document.getElementById(
-            "userEmail"
-        ).value;
-
-    if (
-        !userName ||
-        !userEmail
-    ) {
-
-        showMessage(
-            "Bitte Name und E-Mail eingeben.",
-            "warning"
-        );
-
-        return;
-    }
+    const now =
+        new Date();
 
     const data = {
 
         UserName:
-            userName,
+            "Patrick Richter",
 
         UserEmail:
-            userEmail,
+            "patrick@test.de",
 
         Standort:
             locationName,
+
+        IPAdresse:
+            ipAddress,
 
         CheckDate:
             now.toISOString(),
@@ -248,14 +108,7 @@ async function saveCheckIn(
         CheckTime:
             now.toLocaleTimeString(
                 "de-DE"
-            ),
-
-        Latitude:
-            latitude,
-
-        Longitude:
-            longitude
-
+            )
     };
 
     console.log(
@@ -268,7 +121,7 @@ async function saveCheckIn(
         const response =
             await fetch(
 
-                "https://default89bb60786f5646f6936d0ee5563b6a.48.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/19dfe4fbfe654bb78bd85dee97d84f22/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=qOSzG_4wCK88dnmvywfOsAGlB6FikDdak1FkeFyJ6yY",
+                "https://default89bb60786f5646f6936d0ee5563b6a.48.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/15/workflows/19dfe4fbfe654bb78bd85dee97d84f22/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=qOSzG_4wCK88dnmvywfOsAGlB6FikDdak1FkeFyJ6yY",
 
                 {
                     method: "POST",
@@ -364,19 +217,17 @@ async function checkIn() {
             "info"
         );
 
-        const position =
-            await getLocation();
+        const ip =
+            await getPublicIP();
 
-        const latitude =
-            position.coords.latitude;
-
-        const longitude =
-            position.coords.longitude;
+        console.log(
+            "Öffentliche IP:",
+            ip
+        );
 
         const result =
-            checkSchoolLocation(
-                latitude,
-                longitude
+            checkIPAddress(
+                ip
             );
 
         if (
@@ -385,18 +236,10 @@ async function checkIn() {
 
             showMessage(
 
-                "Kein gültiger Standort.<br>" +
-
-                "Nächstes Schulungszentrum: " +
-                result.nearestLocation +
-
-                "<br>Entfernung: " +
-                result.nearestDistance +
-                " Meter<br>" +
-
-                "Erlaubter Radius: " +
-                maxDistance +
-                " Meter",
+                "Check-In nicht möglich.<br>" +
+                "Sie befinden sich nicht in einem zugelassenen Schulungszentrum.<br><br>" +
+                "Ermittelte IP-Adresse: " +
+                ip,
 
                 "danger"
             );
@@ -408,20 +251,14 @@ async function checkIn() {
 
             "Standort erkannt: " +
             result.locationName +
-
-            "<br>Entfernung: " +
-            result.distance +
-            " Meter",
+            "<br>IP-Adresse: " +
+            ip,
 
             "success"
         );
 
         await saveCheckIn(
-
-            latitude,
-
-            longitude,
-
+            ip,
             result.locationName
         );
 
@@ -435,7 +272,7 @@ async function checkIn() {
 
         showMessage(
 
-            "Standort konnte nicht ermittelt werden.<br>" +
+            "IP-Adresse konnte nicht ermittelt werden.<br>" +
             error.message,
 
             "danger"
