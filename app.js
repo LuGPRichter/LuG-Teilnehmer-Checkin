@@ -95,7 +95,9 @@ async function saveCheckIn(
 const email =
     document.getElementById(
         "email"
-    ).value.trim();
+    ).value.trim() +
+    "@training.lug-ag.de";
+
     const data = {
 
         UserName:
@@ -219,10 +221,25 @@ if (!userName) {
 
     return;
 }
-    const email =
+const emailInput =
     document.getElementById(
         "email"
     ).value.trim();
+
+if (!emailInput) {
+
+    showMessage(
+        "Bitte E-Mail-Adresse eingeben.",
+        "warning"
+    );
+
+    return;
+}
+
+const email =
+    emailInput +
+    "@training.lug-ag.de";
+
 
 if (!email) {
 
