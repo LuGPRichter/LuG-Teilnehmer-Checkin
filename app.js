@@ -348,3 +348,75 @@ if (!email) {
         );
     }
 }
+
+async function checkOut() {
+
+    const userName =
+        document.getElementById(
+            "usernameInput"
+        ).value.trim();
+
+    const email =
+        document.getElementById(
+            "email"
+        ).value.trim() +
+        "@training.lug-ag.de";
+
+    const data = {
+
+        UserName:
+            userName,
+
+        UserEmail:
+            email
+    };
+
+    try {
+
+        const response =
+            await fetch(
+
+                "https://default89bb60786f5646f6936d0ee5563b6a.48.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/24/workflows/4af5ea7c6d2b427bbec4cbeb60df4b17/triggers/manual/paths/invoke?api-version=1",
+
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            data
+                        )
+                }
+            );
+
+        if (
+            response.ok
+        ) {
+
+            showMessage(
+                "Check-Out erfolgreich durchgeführt.",
+                "success"
+            );
+
+        } else {
+
+            showMessage(
+                "Fehler beim Check-Out.",
+                "danger"
+            );
+        }
+
+    } catch (
+        error
+    ) {
+
+        showMessage(
+            "Verbindung zu Power Automate fehlgeschlagen.",
+            "danger"
+        );
+    }
+}
