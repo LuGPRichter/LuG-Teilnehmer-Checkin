@@ -3,10 +3,22 @@
 // =========================================
 
 const allowedIPs = {
-    "Heilbronn": "80.187.66.205",
-    "Nürnberg": "24.134.89.241",
-    "Stuttgart": "217.7.193.54",
-    "Karlsruhe": "78.94.141.170"
+    "Heilbronn": [
+        "80.187.66.205"
+    ],
+
+    "Nürnberg": [
+        "24.134.89.241"
+    ],
+
+    "Stuttgart": [
+        "217.7.193.54",
+        "83.135.163.21"
+    ],
+
+    "Karlsruhe": [
+        "78.94.141.170"
+    ]
 };
 
 // =========================================
@@ -58,7 +70,7 @@ function checkIPAddress(ip) {
     ) {
 
         if (
-            ip === allowedIP
+            ip === allowedIP.includes (ip)
         ) {
 
             return {
