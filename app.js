@@ -109,7 +109,7 @@ const email =
         "email"
     ).value.trim() +
     "@training.lug-ag.de";
-
+console.log("AKTION TEST");
     const data = {
 
         Aktion:
