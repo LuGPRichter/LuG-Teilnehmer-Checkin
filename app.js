@@ -87,6 +87,11 @@ async function saveCheckIn(
 
     const now =
         new Date();
+    const userName =
+    document.getElementById(
+        "usernameInput"
+    ).value.trim();
+
 const email =
     document.getElementById(
         "email"
@@ -94,7 +99,7 @@ const email =
     const data = {
 
         UserName:
-            email,
+            userName,
 
         UserEmail:
             email,
@@ -200,6 +205,20 @@ async function checkIn() {
         document.getElementById(
             "agb"
         );
+    const userName =
+    document.getElementById(
+        "usernameInput"
+    ).value.trim();
+
+if (!userName) {
+
+    showMessage(
+        "Bitte Vor- und Nachnamen eingeben.",
+        "warning"
+    );
+
+    return;
+}
     const email =
     document.getElementById(
         "email"
