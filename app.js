@@ -110,10 +110,6 @@ const email =
     ).value.trim() +
     "@training.lug-ag.de";
 
-    console.log(
-    "REQUEST:",
-    JSON.stringify(data, null, 2)
-);
     const data = {
 
         Aktion:
