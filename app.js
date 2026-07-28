@@ -136,9 +136,10 @@ console.log("AKTION TEST");
             )
     };
 
-    console.log(
-        "Sende Daten:",
-        data
+  console.log(
+    "REQUEST:",
+    JSON.stringify(data, null, 2)
+
     );
 
     try {
