@@ -13,15 +13,14 @@ const allowedIPs = {
     ],
 
     "Stuttgart": [
-        "217.7.193.54",
-        "83.135.163.21",
-        "83.135.163.17",
-        "83.135.163.19",
-    ],
+    "217.7.193.54",
+    "83.135.163.*"
 
+    ],    
+        
     "Karlsruhe": [
         "78.94.141.170"
-    ]
+    ],
 };
 
 // =========================================
@@ -67,22 +66,33 @@ async function getPublicIP() {
 
 function checkIPAddress(ip) {
 
-    for (
-        const [locationName, allowedIP]
-        of Object.entries(allowedIPs)
-    ) {
+    for (const [locationName, ipList] of Object.entries(allowedIPs)) {
 
-        if (
-            allowedIP.includes(ip)
-        ) {
+        for (const allowedIP of ipList) {
 
-            return {
+            // Exakte IP prüfen
+            if (allowedIP === ip) {
 
-                valid: true,
+                return {
+                    valid: true,
+                    locationName: locationName
+                };
+            }
 
-                locationName:
-                    locationName
-            };
+            // Bereiche prüfen (z.B. 83.135.163.*)
+            if (allowedIP.endsWith("*")) {
+
+                const prefix =
+                    allowedIP.slice(0, -1);
+
+                if (ip.startsWith(prefix)) {
+
+                    return {
+                        valid: true,
+                        locationName: locationName
+                    };
+                }
+            }
         }
     }
 
